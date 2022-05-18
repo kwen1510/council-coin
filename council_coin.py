@@ -1,5 +1,3 @@
-# Source: https://codeburst.io/how-to-create-your-own-qr-code-programmatically-7b7290252b15
-
 # pip install qrcode
 # pip install Pillow
 
