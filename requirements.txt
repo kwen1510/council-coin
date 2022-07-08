@@ -1,3 +1,2 @@
 gsheetsdb
-opencv-python
-pipreqs
+opencv-python-headless
