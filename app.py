@@ -71,18 +71,18 @@ if img_file_buffer is not None:
         student_id = qr_code_dec(image)
         st.markdown(f"Student ID: **{student_id}**")      
 
-    # Initialise state
-    state = "none"
+        # Initialise state
+        state = "none"
 
-    # Check each row to see if student_id matches, then return the 
-    for row in rows:
-        if student_id == row.student_id:
-            st.markdown(f"Number of Points: **{round(row.number_of_coins)}**")
-            state = "yes"
-            break
-    # If cannot find
-    if state == "none":
-        st.error("Student not found. Please scan the correct QR code")
+        # Check each row to see if student_id matches, then return the 
+        for row in rows:
+            if student_id == row.student_id:
+                st.markdown(f"Number of Points: **{round(row.number_of_coins)}**")
+                state = "yes"
+                break
+        # If cannot find
+        if state == "none":
+            st.error("Student not found. Please scan the correct QR code")
 
     except:
         st.error("QR code cannot be detected. Please take a screenshot of the QR code instead.")
