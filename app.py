@@ -87,7 +87,3 @@ if img_file_buffer is not None:
     except:
         st.error("QR code cannot be detected. Please take a screenshot of the QR code instead.")
 
-
-# References
-# https://medium.com/analytics-vidhya/create-a-qr-code-decoder-web-application-using-opencv-and-streamlit-b0656146e2d1
-# https://docs.streamlit.io/knowledge-base/tutorials/databases/private-gsheet
