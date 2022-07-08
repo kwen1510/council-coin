@@ -1,6 +1,3 @@
-# streamlit_app.py
-
-
 # Libraries for connection
 import streamlit as st
 from google.oauth2 import service_account
@@ -44,7 +41,7 @@ def qr_code_dec(image):
     data, vertices, rectified_qr_code = decoder.detectAndDecode(image)
     
     if len(data) > 0:
-        print("Decoded Data: '{}'".format(data))
+        # print("Decoded Data: '{}'".format(data))
         
         rectified_image = np.uint8(rectified_qr_code)
         
@@ -58,18 +55,18 @@ def qr_code_dec(image):
 
 # Streamlit stuff
 st.title("Points Tracker")
-st.subheader("Take a photo or upload an image of your QR code to get your points")
+st.subheader("Take a screenshot of your QR code and upload it to get your points. Taking photos with the camera will not work.")
 
 
 #uploading the imges
 img_file_buffer = st.file_uploader("Upload an image which you want to Decode", type=[ "jpg", "jpeg",'png'])
-# img_file_buffer = st.file_uploader("Upload an image which you want to Decode")
 
 if img_file_buffer is not None:
     image = np.array(Image.open(img_file_buffer))
 
-    student_id = qr_code_dec(image)
-    st.markdown(f"Student ID: **{student_id}**")
+    try:
+        student_id = qr_code_dec(image)
+        st.markdown(f"Student ID: **{student_id}**")      
 
     # Initialise state
     state = "none"
@@ -82,7 +79,10 @@ if img_file_buffer is not None:
             break
     # If cannot find
     if state == "none":
-        st.error("Please scan the correct QR code")
+        st.error("Student not found. Please scan the correct QR code")
+
+    except:
+        st.error("QR code cannot be detected. Please take a screenshot of the QR code instead.")
 
 
 # References
