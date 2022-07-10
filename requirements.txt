@@ -1,2 +1,3 @@
 gsheetsdb
 opencv-python-headless
+qrcode
