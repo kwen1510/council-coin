@@ -1,5 +1,4 @@
-# streamlit_app.py
-
+### streamlit_app.py
 
 # Libraries for connection
 import streamlit as st
@@ -10,6 +9,7 @@ from gsheetsdb import connect
 from PIL import Image
 import numpy as np
 import cv2
+import qrcode
 
 
 # Create a connection object.
@@ -56,34 +56,79 @@ def qr_code_dec(image):
     return decoded_data
 
 
+######### Generate QR Code ############
+
+# Get colour
+def colour_picker(house):
+
+    colour_dictionary = {"BB": "green", "BW":"black", "HH":"purple", "MR":"blue", "MT":"red"}
+
+    background_dictionary = {"BB": "white", "BW":"yellow", "HH":"white", "MR":"white", "MT":"white"}
+
+    colour = colour_dictionary[house]
+
+    background = background_dictionary[house]
+
+    # print(colour)
+
+    return colour, background
+
+# Function to generate QR code
+def generate_qr_code(studentID, colour, background):
+    qr = qrcode.QRCode(
+        version=1,
+        error_correction=qrcode.constants.ERROR_CORRECT_Q,
+        box_size=10,
+        border=4,
+    )
+    qr.add_data(studentID)
+    qr.make(fit=True)
+
+    img = qr.make_image(fill_color=colour, back_color=background)
+    img.save(f'./{studentID}.png')
+    image = Image.open(f'./{studentID}.png')
+
+    st.image(image, width=300)
+
+    return
+
+def create_qr_code(user):
+
+    student_id = row.student_id
+    house = user.house
+
+    colour, background = colour_picker(house)
+
+    generate_qr_code(student_id, colour, background)
+
+    return
+
 # Streamlit stuff
-st.title("Points Tracker")
-st.subheader("Take a screenshot of your QR code and upload it to get your points. Taking photos with the camera will not work.")
+st.title("Griffles Feathers")
+st.subheader("Key in your student ID to get your points and QR Code")
+st.image("feather.png", width=200)
 
+with st.form("Student ID Form", clear_on_submit=False):
+    student_id = st.text_input("Please key in your student ID", placeholder="Student ID")
+    submitted = st.form_submit_button("Generate QR Code")
 
-#uploading the imges
-img_file_buffer = st.file_uploader("Upload an image which you want to Decode", type=[ "jpg", "jpeg",'png'])
+    # Initialise state
+    state = "none"
 
-if img_file_buffer is not None:
-    image = np.array(Image.open(img_file_buffer))
-
-    try:
-        student_id = qr_code_dec(image)
-        st.markdown(f"Student ID: **{student_id}**")      
-
-        # Initialise state
-        state = "none"
-
-        # Check each row to see if student_id matches, then return the 
+    if submitted:
+        # Find student ID in database and return coins and house
         for row in rows:
-            if student_id == row.student_id:
-                st.markdown(f"Number of Points: **{round(row.number_of_coins)}**")
+            if student_id.lower() == row.student_id.lower():
+                
+                # Get total coins
+                st.subheader(f"Number of Points: {round(row.number_of_coins)}")
                 state = "yes"
+
+                # Generate QR code
+                qr_code = create_qr_code(row)
+
                 break
+
         # If cannot find
         if state == "none":
-            st.error("Student not found. Please scan the correct QR code")
-
-    except:
-        st.error("QR code cannot be detected. Please take a screenshot of the QR code instead.")
-
+            st.error("Cannot find user. Please check your student ID")
