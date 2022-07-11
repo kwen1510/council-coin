@@ -109,7 +109,7 @@ st.subheader("Key in your student ID to get your points and QR Code")
 st.image("feather.png", width=200)
 
 with st.form("Student ID Form", clear_on_submit=False):
-    student_id = st.text_input("Please key in your student ID", placeholder="Student ID")
+    student_id = st.text_input("Please key in your student ID", placeholder="Student ID").strip()
     submitted = st.form_submit_button("Generate QR Code")
 
     # Initialise state
