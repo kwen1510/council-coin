@@ -108,7 +108,7 @@ st.image("feather.png", width=200)
 
 with st.form("Student ID Form", clear_on_submit=False):
     student_id = st.text_input("Please key in your student ID", placeholder="Student ID")
-    submitted = st.form_submit_button("Generate QR Code")
+    submitted = st.form_submit_button("Get Details")
 
     # Initialise state
     state = "none"
