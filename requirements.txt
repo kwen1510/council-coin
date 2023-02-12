@@ -1,3 +1,4 @@
 gsheetsdb
 opencv-python-headless
 qrcode
+pyparsing
