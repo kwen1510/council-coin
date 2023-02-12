@@ -110,6 +110,7 @@ with st.form("Student ID Form", clear_on_submit=False):
             if student_id.lower() == row.student_id.lower():
                 
                 # Get total coins
+                st.subheader(f"Name: {row.name}")
                 st.subheader(f"Number of Points: {round(row.number_of_coins)}")
                 state = "yes"
 
