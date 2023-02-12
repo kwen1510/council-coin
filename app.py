@@ -107,9 +107,10 @@ with st.form("Student ID Form", clear_on_submit=False):
     if submitted:
         # Find student ID in database and return coins and house
         for row in rows:
-            if student_id.lower() == row.student_id.lower():
+            if student_id.lower().strip() == row.student_id.lower():
                 
                 # Get total coins
+                st.subheader(f"UserID: {row.student_id}")
                 st.subheader(f"Name: {row.name}")
                 st.subheader(f"Number of Points: {round(row.number_of_coins)}")
                 state = "yes"
