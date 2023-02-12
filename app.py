@@ -1,5 +1,3 @@
-### streamlit_app.py
-
 # Libraries for connection
 import streamlit as st
 from google.oauth2 import service_account
@@ -11,8 +9,7 @@ import numpy as np
 import cv2
 import qrcode
 
-
-# Create a connection object.
+# Create a connection object
 credentials = service_account.Credentials.from_service_account_info(
     st.secrets["gcp_service_account"],
     scopes=[
@@ -21,9 +18,6 @@ credentials = service_account.Credentials.from_service_account_info(
 )
 conn = connect(credentials=credentials)
 
-# Perform SQL query on the Google Sheet.
-# Uses st.cache to only rerun when the query changes or after 10 min.
-# @st.cache(ttl=600)
 def run_query(query):
     rows = conn.execute(query, headers=1)
     rows = rows.fetchall()
@@ -31,9 +25,7 @@ def run_query(query):
 
 sheet_url = st.secrets["private_gsheets_url"]
 
-# Get all data from the sheet
 rows = run_query(f'SELECT * FROM "{sheet_url}"')
-
 
 # Function to decode QR code
 @st.cache
@@ -44,7 +36,6 @@ def qr_code_dec(image):
     data, vertices, rectified_qr_code = decoder.detectAndDecode(image)
     
     if len(data) > 0:
-        # print("Decoded Data: '{}'".format(data))
         
         rectified_image = np.uint8(rectified_qr_code)
         
@@ -61,15 +52,13 @@ def qr_code_dec(image):
 # Get colour
 def colour_picker(house):
 
-    colour_dictionary = {"BB": "green", "BW":"black", "HH":"purple", "MR":"blue", "MT":"red"}
+    colour_dictionary = {"Buckle-Buckley": "green", "Bayley-Waddle":"black", "Hadley-Hullett":"purple", "Morrison-Richardson":"blue", "Moor-Tarbet":"red"}
 
-    background_dictionary = {"BB": "white", "BW":"yellow", "HH":"white", "MR":"white", "MT":"white"}
+    background_dictionary = {"Buckle-Buckley": "white", "Bayley-Waddle":"yellow", "Hadley-Hullett":"white", "Morrison-Richardson":"white", "Moor-Tarbet":"white"}
 
     colour = colour_dictionary[house]
 
     background = background_dictionary[house]
-
-    # print(colour)
 
     return colour, background
 
@@ -109,7 +98,7 @@ st.subheader("Key in your student ID to get your points and QR Code")
 st.image("feather.png", width=200)
 
 with st.form("Student ID Form", clear_on_submit=False):
-    student_id = st.text_input("Please key in your student ID", placeholder="Student ID").strip()
+    student_id = st.text_input("Please key in your student ID", placeholder="Student ID")
     submitted = st.form_submit_button("Generate QR Code")
 
     # Initialise state
