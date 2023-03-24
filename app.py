@@ -98,7 +98,7 @@ st.subheader("Key in your student ID to get your points and QR Code")
 st.image("feather.png", width=200)
 
 with st.form("Student ID Form", clear_on_submit=False):
-    student_id = st.text_input("Please key in your student ID", placeholder="Student ID")
+    student_id = st.text_input("Please key in your username", placeholder="Username")
     submitted = st.form_submit_button("Generate QR Code")
 
     # Initialise state
@@ -107,12 +107,15 @@ with st.form("Student ID Form", clear_on_submit=False):
     if submitted:
         # Find student ID in database and return coins and house
         for row in rows:
-            if student_id.lower().strip() == row.student_id.lower():
+#             if student_id.lower().strip() == row.student_id.lower():
+            if student_id.lower().strip() == row.Username.lower():
                 
                 # Get total coins
-                st.subheader(f"UserID: {row.student_id}")
-                st.subheader(f"Name: {row.name}")
-                st.subheader(f"Number of Points: {round(row.number_of_coins)}")
+#                 st.subheader(f"UserID: {row.student_id}")
+                st.subheader(f"UserID: {row.Username}")
+                st.subheader(f"Name: {row.Name}")
+                st.subheader(f"Number of Points: {round(row.Score)}")
+#                 st.subheader(f"Number of Points: {round(row.number_of_coins)}")
                 state = "yes"
 
                 # Generate QR code
