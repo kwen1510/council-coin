@@ -92,8 +92,11 @@ def generate_qr_code(studentID, colour, background):
 
 def create_qr_code(user):
 
-    student_id = row.student_id
-    house = user.house
+#     student_id = row.student_id
+    student_id = row.Username
+#     house = user.house
+
+    house = "BB"
 
     colour, background = colour_picker(house)
 
@@ -103,11 +106,13 @@ def create_qr_code(user):
 
 # Streamlit stuff
 st.title("Griffles Feathers")
+# st.subheader("Key in your student ID to get your points and QR Code")
 st.subheader("Key in your student ID to get your points and QR Code")
 st.image("feather.png", width=200)
 
 with st.form("Student ID Form", clear_on_submit=False):
-    student_id = st.text_input("Please key in your student ID", placeholder="Student ID")
+#     student_id = st.text_input("Please key in your student ID", placeholder="Student ID")
+    student_id = st.text_input("Please key in your username", placeholder="Username")
     submitted = st.form_submit_button("Get Details")
 
     # Initialise state
@@ -129,4 +134,5 @@ with st.form("Student ID Form", clear_on_submit=False):
 
         # If cannot find
         if state == "none":
-            st.error("Cannot find user. Please check your student ID")
+#             st.error("Cannot find user. Please check your student ID")
+            st.error("Cannot find user. Please check your username")
