@@ -86,7 +86,7 @@ def create_qr_code(user):
 #     student_id = row.student_id
     student_id = row.Username
 #     house = user.house
-    house = "BB"
+    house = "Buckle-Buckley"
 
     colour, background = colour_picker(house)
 
