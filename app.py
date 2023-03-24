@@ -95,7 +95,8 @@ def create_qr_code(user):
     return
 
 # Streamlit stuff
-st.title("Griffles Feathers")
+# st.title("Griffles Feathers")
+st.title("RI Open House and Carnival")
 st.subheader("Key in your username to get your points and QR Code")
 st.image("feather.png", width=200)
 
